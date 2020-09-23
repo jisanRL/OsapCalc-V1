@@ -35,19 +35,45 @@ public class Osap extends HttpServlet {
 		// task 7 (p-2), to respond to the client with a message  
 		response.setContentType("text/plain");
 		Writer resOut = response.getWriter();
+		resOut.write("\n");										// optional for new line 
 		resOut.write("Hello, World!\n");
 		
-		String clientIP = request.getRemoteAddr();
+		String clientIP = request.getRemoteAddr();				// client IP
 		resOut.write("Client IP: " + clientIP + "\n");
-		String clientQueryString = request.getQueryString();
-		String foo = request.getParameter("foo");
+		
+		int cPort = request.getLocalPort();						// client port   or  request.getServerPort();[check this one as well]
+		resOut.write("Client Port: " + cPort + "\n");
+		
+		String cProtocol = request.getProtocol();		    	// protocol 
+		resOut.write("Client Protocol: " + cProtocol + "\n");
+		
+		String cMethod = request.getMethod();					// method 
+		resOut.write("Client Method: " + cMethod + "\n");
+		
+		
+		String clientQueryString = request.getQueryString();	// querystring   
+		String foo = request.getParameter("foo");								// [check this part]
+		resOut.write("Query String: " + foo + "=" + clientQueryString + "\n");  // [check this part
 		resOut.write("Query Param foo= " + foo + "\n");
+		
+		String uri = request.getRequestURI().toString(); 		// URI 
+		resOut.write("Request URI: " + uri + "\n");
+		
+		String servletPath = request.getServletPath();			// servlet path 
+		resOut.write("Request Servlet Path: " + servletPath + "\n");
 		
 		ServletContext context = this.getServletContext();
 		double principal = Double.parseDouble(this.getServletContext().getInitParameter("principal"));  // check this 
 		
 		String contextPath = context.getContextPath();
 		String realPath = context.getRealPath("Osap");
+		
+		
+		// task D osap Calc fomula
+		
+		
+		
+		
 		
 		System.out.println("Hello, Got a GET request from Osap!");    // task7
 	}
