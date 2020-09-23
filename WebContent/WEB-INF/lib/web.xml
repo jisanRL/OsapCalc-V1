@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+	<!-- <welcome-file-list>
+		<welcome-file>Osap</welcome-file>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file> <welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+
+	<context-param>
+		<param-name>applicationName</param-name>
+		<param-value>OSAP Calculator 2020</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>applicantName</param-name>
+		<param-value>Joe Doe</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>principal</param-name>
+		<param-value>1000</param-value>
+	</context-param>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/res/my404.jspx</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/res/myException.jspx</location>
+	</error-page> -->
+
+

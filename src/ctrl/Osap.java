@@ -3,6 +3,7 @@ package ctrl;
 import java.io.IOException;
 import java.io.Writer;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Osap
  */
-@WebServlet("/Osap")				// check this part 
+@WebServlet("/Osap/*")				// check this part 
 public class Osap extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -41,6 +42,12 @@ public class Osap extends HttpServlet {
 		String clientQueryString = request.getQueryString();
 		String foo = request.getParameter("foo");
 		resOut.write("Query Param foo= " + foo + "\n");
+		
+		ServletContext context = this.getServletContext();
+		double principal = Double.parseDouble(this.getServletContext().getInitParameter("principal"));  // check this 
+		
+		String contextPath = context.getContextPath();
+		String realPath = context.getRealPath("Osap");
 		
 		System.out.println("Hello, Got a GET request from Osap!");    // task7
 	}
