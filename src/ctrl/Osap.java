@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Osap
  */
-@WebServlet("/Osap/*")				// check this part 
+@WebServlet("/Osap/*")						// * means -> all url with osap 
 public class Osap extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -53,24 +53,52 @@ public class Osap extends HttpServlet {
 		
 		String clientQueryString = request.getQueryString();	// querystring   
 		String foo = request.getParameter("foo");								// [check this part]
-		resOut.write("Query String: " + foo + "=" + clientQueryString + "\n");  // [check this part
+		resOut.write("Query String: " + clientQueryString + "\n");  // [check this part
 		resOut.write("Query Param foo= " + foo + "\n");
 		
 		String uri = request.getRequestURI().toString(); 		// URI 
 		resOut.write("Request URI: " + uri + "\n");
 		
-		String servletPath = request.getServletPath();			// servlet path 
+		//
+		
+		String servletPath = request.getServletPath();			// servlet path [this reads the web.xml file]
 		resOut.write("Request Servlet Path: " + servletPath + "\n");
 		
 		ServletContext context = this.getServletContext();
-		double principal = Double.parseDouble(this.getServletContext().getInitParameter("principal"));  // check this 
+		resOut.write("---Application info---\n");
+		
+		String appName = this.getServletContext().getInitParameter("applicationName");					// application name
+		resOut.write("Application Name= " + appName + "\n");
+		
+		String applicant = this.getServletContext().getInitParameter("applicantName");					// applicant Name
+		resOut.write("Applicant Name= " + applicant + "\n");
+		
+		double principal = Double.parseDouble(this.getServletContext().getInitParameter("principal"));  // this reads the web.xml file and returns the parameter value of the param-name
+//		resOut.write("Principal= " + principal + "\n");     // fix this 
+
 		
 		String contextPath = context.getContextPath();
+		resOut.write("Context Path= " + contextPath + "\n");
+		
 		String realPath = context.getRealPath("Osap");
+		resOut.write("Real Path= " + realPath + "\n");
+
 		
+		// task D osap monthly payments, make parameters period, interest in web.xml 
+//		double period = Double.parseDouble(this.getServletContext().getInitParameter("period")); 
+//		double interest = Double.parseDouble(this.getServletContext().getInitParameter("interest")); 
 		
-		// task D osap Calc fomula
+		resOut.write("Based on Principal = " + principal);
 		
+		String period = this.getServletContext().getInitParameter("period");   // fix this part to double 
+//		String period = request.getParameter("period");
+		resOut.write(" period=" + period);
+		
+		String interest = this.getServletContext().getInitParameter("interest");   // fix this part to double 
+//		String interest = request.getParameter("interest");
+		resOut.write(" Interest=" + interest +"\n");
+		
+		// the formula for osap calculation 
 		
 		
 		

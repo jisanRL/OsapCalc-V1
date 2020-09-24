@@ -22,6 +22,21 @@
 		<param-name>principal</param-name>
 		<param-value>1000</param-value>
 	</context-param>
+	
+	<context-param>
+		<param-name>interest</param-name>
+		<param-value>10</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>period</param-name>
+		<param-value>24</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>principal</param-name>
+		<param-value>1000</param-value>
+	</context-param>
 
 	<error-page>
 		<error-code>404</error-code>
