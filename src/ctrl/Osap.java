@@ -73,35 +73,67 @@ public class Osap extends HttpServlet {
 		String applicant = this.getServletContext().getInitParameter("applicantName");					// applicant Name
 		resOut.write("Applicant Name= " + applicant + "\n");
 		
+		// input from web.xml [this are the built-in/hard-coded values]
 		double principal = Double.parseDouble(this.getServletContext().getInitParameter("principal"));  // this reads the web.xml file and returns the parameter value of the param-name
+		double interest = Double.parseDouble(this.getServletContext().getInitParameter("interest"));
+		double period =  Double.parseDouble(this.getServletContext().getInitParameter("period"));
+		
+		// input from query String [these are the user input values]
+		double sPrincipal = Double.parseDouble(request.getParameter("principal"));
+		double sPeriod = Double.parseDouble(request.getParameter("period"));
+		double dInterest = Double.parseDouble(request.getParameter("interest"));
+		
 //		resOut.write("Principal= " + principal + "\n");     // fix this 
 
-		
 		String contextPath = context.getContextPath();
 		resOut.write("Context Path= " + contextPath + "\n");
 		
 		String realPath = context.getRealPath("Osap");
 		resOut.write("Real Path= " + realPath + "\n");
+		
+		if (principal == 0 || this.getServletContext().getInitParameter("principal") == null) {
+			principal = sPrincipal;
+		}
+		if (interest == 0 || this.getServletContext().getInitParameter("interest") == null) {
+			interest = dInterest;
+		}
+		if (period == 0 || request.getParameter("period") == null) {
+			period = sPeriod;
+		}
 
+		// task D osap monthly payments, make parameters period, interest in web.xml 		
+		resOut.write("Based on Principal = " + sPrincipal);
+		resOut.write(" period=" + sPeriod);
+		resOut.write(" Interest=" + dInterest +"\n");
 		
-		// task D osap monthly payments, make parameters period, interest in web.xml 
-//		double period = Double.parseDouble(this.getServletContext().getInitParameter("period")); 
-//		double interest = Double.parseDouble(this.getServletContext().getInitParameter("interest")); 
 		
-		resOut.write("Based on Principal = " + principal);
-		
-		String period = this.getServletContext().getInitParameter("period");   // fix this part to double 
-//		String period = request.getParameter("period");
-		resOut.write(" period=" + period);
-		
-		String interest = this.getServletContext().getInitParameter("interest");   // fix this part to double 
-//		String interest = request.getParameter("interest");
-		resOut.write(" Interest=" + interest +"\n");
-		
-		// the formula for osap calculation 
+		// the formula for osap calculation 	[fix this formula ]
+		double calc = ((dInterest / 12) * sPrincipal) 
+				/ (1 - Math.pow(1 + (dInterest / 12), -sPeriod));  
+		resOut.write("Monthly payments: " + calc);
+
+//		(dinterest/12) * sprincipal 
+//		-----------------------------
+//		1 - ((1 + (dinterest/12))^(-speriod))
 		
 		
 		
+		// task E : save session 
+		request.getSession().setAttribute("sPrincipal", principal);   // see this in details 
+		request.getSession().setAttribute("dInterest", interest);
+		request.getSession().setAttribute("sPeriod", period);
+		
+		
+//		debugs 
+		System.out.println("principal " + principal);
+		System.out.println("period " + period);
+		System.out.println("interest " + interest);
+		System.out.println("calc: " + calc);
+		System.out.println("------------------------------------------");
+		System.out.println("sprincipal = " + sPrincipal);
+		System.out.println("speriod = " + sPeriod);
+		System.out.println("dinterest = " + dInterest);
+		System.out.println("calc = " + calc);
 		
 		System.out.println("Hello, Got a GET request from Osap!");    // task7
 	}
