@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Osap
@@ -82,8 +83,7 @@ public class Osap extends HttpServlet {
 		double sPrincipal = Double.parseDouble(request.getParameter("principal"));
 		double sPeriod = Double.parseDouble(request.getParameter("period"));
 		double dInterest = Double.parseDouble(request.getParameter("interest"));
-		
-//		resOut.write("Principal= " + principal + "\n");     // fix this 
+//		resOut.write("Principal= " + principal + "\n");     
 
 		String contextPath = context.getContextPath();
 		resOut.write("Context Path= " + contextPath + "\n");
@@ -107,20 +107,24 @@ public class Osap extends HttpServlet {
 		resOut.write(" Interest=" + dInterest +"\n");
 		
 		
-		// the formula for osap calculation 	[fix this formula ]
+		// the formula for osap calculation 
 		double calc = (((dInterest/100) / 12) * sPrincipal) / (1 - Math.pow(1 + ((dInterest/100) / 12), -sPeriod));  
 		resOut.write("Monthly payments: " + calc);
 
-//		(dinterest/12) * sprincipal 
-//		-----------------------------
-//		1 - ((1 + (dinterest/12))^(-speriod))
-		
-		
 		
 		// task E : save session 
+		HttpSession session = request.getSession();
+		
 		request.getSession().setAttribute("sPrincipal", principal);   // see this in details 
 		request.getSession().setAttribute("dInterest", interest);
 		request.getSession().setAttribute("sPeriod", period);
+		request.getSession().setAttribute("calc", calc);
+		
+		resOut.write("\n---Session info---" + "\n");
+		resOut.write("SessionID: " + session.getId() + "\n");
+		resOut.write("Principal: " + Double.toString(principal) + " Interest: " + Double.toString(interest) + " Period: " + Double.toString(period) + "\n");
+		resOut.write("Monthly payments: " + calc + "\n");
+		
 		
 		
 //		debugs 
