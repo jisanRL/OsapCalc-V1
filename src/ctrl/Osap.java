@@ -108,8 +108,7 @@ public class Osap extends HttpServlet {
 		
 		
 		// the formula for osap calculation 	[fix this formula ]
-		double calc = ((dInterest / 12) * sPrincipal) 
-				/ (1 - Math.pow(1 + (dInterest / 12), -sPeriod));  
+		double calc = (((dInterest/100) / 12) * sPrincipal) / (1 - Math.pow(1 + ((dInterest/100) / 12), -sPeriod));  
 		resOut.write("Monthly payments: " + calc);
 
 //		(dinterest/12) * sprincipal 
