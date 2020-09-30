@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class Osap
  */
-@WebServlet("/Osap/*")						// * means -> all url with osap 
+@WebServlet({ "/Osap", "/Osap/*" })						// * means -> all url with osap  
 public class Osap extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,6 +44,7 @@ public class Osap extends HttpServlet {
 		
 		int cPort = request.getLocalPort();						// client port   or  request.getServerPort();[check this one as well]
 		resOut.write("Client Port: " + cPort + "\n");
+		resOut.write("This IP has been flagged!\n");
 		
 		String cProtocol = request.getProtocol();		    	// protocol 
 		resOut.write("Client Protocol: " + cProtocol + "\n");
@@ -52,17 +53,16 @@ public class Osap extends HttpServlet {
 		resOut.write("Client Method: " + cMethod + "\n");
 		
 		
-		String clientQueryString = request.getQueryString();	// querystring   
+		String clientQueryString = request.getQueryString();					// querystring   
 		String foo = request.getParameter("foo");								// [check this part]
-		resOut.write("Query String: " + clientQueryString + "\n");  // [check this part
+		resOut.write("Query String: " + clientQueryString + "\n");  			// [check this part
 		resOut.write("Query Param foo= " + foo + "\n");
 		
-		String uri = request.getRequestURI().toString(); 		// URI 
+		String uri = request.getRequestURI().toString(); 						// URI 
 		resOut.write("Request URI: " + uri + "\n");
 		
-		//
 		
-		String servletPath = request.getServletPath();			// servlet path [this reads the web.xml file]
+		String servletPath = request.getServletPath();							// servlet path [this reads the web.xml file]
 		resOut.write("Request Servlet Path: " + servletPath + "\n");
 		
 		ServletContext context = this.getServletContext();
@@ -79,27 +79,25 @@ public class Osap extends HttpServlet {
 		double interest = Double.parseDouble(this.getServletContext().getInitParameter("interest"));
 		double period =  Double.parseDouble(this.getServletContext().getInitParameter("period"));
 		
+		double sPrincipal, sPeriod, dInterest;
 		// input from query String [these are the user input values]
-		double sPrincipal = Double.parseDouble(request.getParameter("principal"));
-		double sPeriod = Double.parseDouble(request.getParameter("period"));
-		double dInterest = Double.parseDouble(request.getParameter("interest"));
-//		resOut.write("Principal= " + principal + "\n");     
+		if (request.getParameterMap().isEmpty()) {
+			 sPrincipal = Double.parseDouble(context.getInitParameter("principal"));
+			 sPeriod = Double.parseDouble(context.getInitParameter("period"));
+			 dInterest = Double.parseDouble(context.getInitParameter("interest"));
+		} else {
+			 sPrincipal = Double.parseDouble(request.getParameter("principal"));
+			 sPeriod = Double.parseDouble(request.getParameter("period"));
+			 dInterest = Double.parseDouble(request.getParameter("interest"));
+//			resOut.write("Principal= " + principal + "\n");     
+		}
 
-		String contextPath = context.getContextPath();
+		String contextPath = context.getContextPath();					// context path 
 		resOut.write("Context Path= " + contextPath + "\n");
 		
-		String realPath = context.getRealPath("Osap");
+		String realPath = context.getRealPath("Osap");				   // real path
 		resOut.write("Real Path= " + realPath + "\n");
 		
-		if (principal == 0 || this.getServletContext().getInitParameter("principal") == null) {
-			principal = sPrincipal;
-		}
-		if (interest == 0 || this.getServletContext().getInitParameter("interest") == null) {
-			interest = dInterest;
-		}
-		if (period == 0 || request.getParameter("period") == null) {
-			period = sPeriod;
-		}
 
 		// task D osap monthly payments, make parameters period, interest in web.xml 		
 		resOut.write("Based on Principal = " + sPrincipal);
@@ -114,16 +112,16 @@ public class Osap extends HttpServlet {
 		
 		// task E : save session 
 		HttpSession session = request.getSession();
-		
-		request.getSession().setAttribute("sPrincipal", principal);   // see this in details 
-		request.getSession().setAttribute("dInterest", interest);
-		request.getSession().setAttribute("sPeriod", period);
-		request.getSession().setAttribute("calc", calc);
-		
-		resOut.write("\n---Session info---" + "\n");
-		resOut.write("SessionID: " + session.getId() + "\n");
-		resOut.write("Principal: " + Double.toString(principal) + " Interest: " + Double.toString(interest) + " Period: " + Double.toString(period) + "\n");
-		resOut.write("Monthly payments: " + calc + "\n");
+//		
+//		request.getSession().setAttribute("sPrincipal", principal);   // see this in details 
+//		request.getSession().setAttribute("dInterest", interest);
+//		request.getSession().setAttribute("sPeriod", period);
+//		request.getSession().setAttribute("calc", calc);
+//		
+//		resOut.write("\n---Session info---" + "\n");
+//		resOut.write("SessionID: " + session.getId() + "\n");
+//		resOut.write("Principal: " + Double.toString(principal) + " Interest: " + Double.toString(interest) + " Period: " + Double.toString(period) + "\n");
+//		resOut.write("Monthly payments: " + calc + "\n");
 		
 		
 		
@@ -150,3 +148,6 @@ public class Osap extends HttpServlet {
 	}
 
 }
+
+
+
